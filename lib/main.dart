@@ -16,9 +16,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
-        apiKey: "AIzaSyCcLygRuCkh2uugbt3fMXC8dAxkT9QAsho",
-        appId: "1:620134107676:android:f8ff24a5c633f30ddf2dd9",
-        messagingSenderId: "620134107676",
+        apiKey: "AIzaSyCcLygRufMXC8dAxkT9QAsho",
+        appId: "1:64107676:a4a5c63ddf2dd9",
+        messagingSenderId: "620134176",
         projectId: "groovify-8e551"),
   );
   runApp(groovifymain());
