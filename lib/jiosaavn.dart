@@ -10,8 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:just_audio/just_audio.dart';
 
 class jiosaavn {
-  static String clientID = 'aa121d6307fe43b3b0598454e4906c6f';
-  static String clientSecret = '576a05033e2c49c2bd830ea6f7a501a0';
+  static String clientID = 'aa121d6307fe43b3b0506c6f';
+  static String clientSecret = '576a05033e2c49c7a501a0';
 
 
   static AudioPlayer ap=AudioPlayer();
@@ -29,7 +29,7 @@ class jiosaavn {
 
   static Future<Map<String, String>> fetchtop() async {
     final url = Uri.parse(
-        'http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=9448c12e23e9df6b992e50e668ee6a16&format=json');
+        'http://ws.audioscrobbler.com/2.0/?method=chart.gettoptracks&api_key=9448c12e23e68ee6a16&format=json');
     final response = await http.get(
       url,
     );
@@ -52,7 +52,7 @@ class jiosaavn {
 
   static Future<Map<String, String>> fetchtopartist() async {
     final url = Uri.parse(
-        'http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=9448c12e23e9df6b992e50e668ee6a16&format=json');
+        'http://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=9448c12e23e8ee6a16&format=json');
     final response = await http.get(
       url,
     );
