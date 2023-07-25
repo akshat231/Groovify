@@ -135,6 +135,11 @@ or submit a pull request.
 License This project is licensed under the <b>MIT License</b>. Feel free to
 use, modify, and distribute the code as per the terms of the license.
 
+
+# Hosted:
+
+App has been hosted on firebase at url: https://groovify-8e551.web.app/
+
 # Note:
 
 All the secret details like client-id and password are changed slightly to prevent ill use.Kindly use Your own.
