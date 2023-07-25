@@ -1,0 +1,271 @@
+
+Padding(
+          padding: EdgeInsets.fromLTRB(20, 30, 0, 0),
+          child: Container(
+            child: Text(
+              genre.toString(),
+              style: TextStyle(color: Colors.white, fontSize: 17),
+            ),
+          ),
+        ),
+      ),
+
+      EdgeInsets.fromLTRB(20, 10, 20, 20),
+
+flutter run -d chrome --web-port 62940
+
+
+
+
+Stack(
+            fit: StackFit.expand,
+            children: [
+              Image.asset(
+                'images/bgimage.jpg',
+                fit: BoxFit.cover,
+              ),
+              ShaderMask(
+                shaderCallback: (rect) {
+                  return LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.white,
+                        Colors.white.withOpacity(0.5),
+                        Colors.white.withOpacity(0.0),
+                      ],
+                      stops: const [
+                        0.0,
+                        0.4,
+                        0.6
+                      ]).createShader(rect);
+                },
+                blendMode: BlendMode.dstOut,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.deepPurple.shade200.withOpacity(0.8),
+                        Colors.deepPurple.shade800.withOpacity(0.8),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        activeTrackColor: Colors.white,
+                      ),
+                      child: Slider(
+                          min: 0.0,
+                          max:
+                              audioPlayer.duration!.inMilliseconds.toDouble() ??
+                                  0.0,
+                          value: _sliderValue,
+                          onChanged: (val) {
+                            setState(() {
+                              audioPlayer
+                                  .seek(Duration(milliseconds: val.toInt()));
+                            });
+                          }),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 30,
+                            child: InkWell(
+                              onTap: () {
+                                audioPlayer.seek(Duration(
+                                    seconds:
+                                        audioPlayer.position.inSeconds - 10));
+                              },
+                              child: Icon(
+                                Icons.replay_10_outlined,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 30,
+                            child: InkWell(
+                              onTap: () {
+                                if (audioPlayer.playing) {
+                                  audioPlayer.pause();
+                                } else {
+                                  audioPlayer.play();
+                                }
+                                setState(() {
+                                  isPlaying =
+                                      !isPlaying; // Update the play/pause button state.
+                                });
+                              },
+                              child: Icon(
+                                audioPlayer.playing
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 30,
+                            child: InkWell(
+                              onTap: () {
+                                audioPlayer.seek(Duration(
+                                    seconds:
+                                        audioPlayer.position.inSeconds + 10));
+                              },
+                              child: Icon(
+                                Icons.forward_10_outlined,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          );
+
+
+
+          I am currently designing a flutter application which could play music from local files. It utilizes the functionality of Filepicker and provide the bytestream generated to just_audio "AudioPlayer". I am able to play a song but when i try to upload another song. It gives error:
+
+    Error: Expected a value of type 'FutureOr<Duration>', but got one of type 'Null'
+
+Here is the code:
+
+    Expanded(
+                  child: InkWell(
+                    onTap: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: [
+                          'wav',
+                          'm4a',
+                          'mp3',
+                          'mp4',
+                          'flac',
+                          'wma',
+                          'aac'
+                        ],
+                      );
+                      if (result != null && result.files.isNotEmpty) {
+                        Uint8List bytes = result.files[0].bytes!;
+                        MyJABytesSource byts = MyJABytesSource(bytes);
+                        if (jiosaavn.ap.playing) {
+                          jiosaavn.ap.stop();
+                          jiosaavn.ap.dispose();
+                        }
+                        setState(() {
+                          initial = blankwidget();
+                        });
+                        AudioPlayer audioPlayer = jiosaavn.ap;
+                        print(audioPlayer);
+                        Duration length = await fun(byts, audioPlayer);
+                        setState(() {
+                          initial = PlayingScreen(
+                            audioPlayer: audioPlayer,
+                            songlength: length,
+                          );
+                        });
+                      }
+                    },
+                    child: Icon(
+                      Icons.upload,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
+When i click on this icon, filepicker initiate the process of selecting file and then after selecting file, generate bytestream and then if audioplayer "ap" is playing then i stop and dispose it off.
+
+AudioPlayer is merely initialized in jiosaavn file as:
+
+     static AudioPlayer ap=AudioPlayer();
+
+so after that, i initialize local AudioPlayer and provide it to playingscreen() widget. Here is initstate and dispose of playing screen widget:
+
+    void initState() {
+    widget.audioPlayer.play();
+    print(widget.songlength);
+    setState(() {
+      isPlaying = widget.audioPlayer.playing;
+    });
+    widget.audioPlayer.positionStream.listen((position) {
+      setState(() {
+        _sliderValue = position.inMilliseconds.toDouble();
+      });
+    });
+    }
+      void initState() {
+    widget.audioPlayer.play();
+    print(widget.songlength);
+    setState(() {
+      isPlaying = widget.audioPlayer.playing;
+    });
+    widget.audioPlayer.positionStream.listen((position) {
+      setState(() {
+        _sliderValue = position.inMilliseconds.toDouble();
+      });
+    });
+  }
+
+  
+
+    void initState() {
+    widget.audioPlayer.play();
+    print(widget.songlength);
+    setState(() {
+      isPlaying = widget.audioPlayer.playing;
+    });
+    widget.audioPlayer.positionStream.listen((position) {
+      setState(() {
+        _sliderValue = position.inMilliseconds.toDouble();
+      });
+    });
+     }
+
+    @override
+     void dispose() {
+      widget.audioPlayer.dispose();
+      super.dispose();
+       }
+
+
+**For the First song, it is working good but for second song, it gives the error given above. I think there are 2 problems:
+1. Initialization after disposing the audioplayer.<br>
+2.InitState of playingscreen() doesn't work twice.
+
+  

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620134107676",
+    "project_id": "groovify-8e551",
+    "storage_bucket": "groovify-8e551.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620134107676:android:f8ff24a5c633f30ddf2dd9",
+        "android_client_info": {
+          "package_name": "com.example.groovify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620134107676-vqmkdv3u779ovd6amfrs0j9229i7ri2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmo-2YlnBPtgWX02-uwkubK2Elb3UjKSw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620134107676-vqmkdv3u779ovd6amfrs0j9229i7ri2m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
